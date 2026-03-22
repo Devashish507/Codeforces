@@ -1,41 +1,25 @@
-def print_board(board):
-    for row in board:
-        print(" ".join(str(num) for num in row))
+Project 6: Aerospace Mission Design & Simulation
+Brief: A software tool for spacecraft or UAV mission planning and simulation, addressing the complexity of aerospace systems. It can compute optimal orbits or flight paths using algorithms (e.g. Hohmann transfers, genetic search), and simulate dynamics (using e.g. GMAT, Poliastro, or custom code). The innovation is an integrated environment: a Python/C++ backend models physics and constraints, coupled with ML for anomaly prediction or fuel optimization. For example, optimizing satellite constellations for Earth coverage. Impact: allows engineers to test mission plans virtually. Students could implement a satellite orbit propagator and use it to plan a deployment mission, entirely in software. This builds aerospace software skills without hardware.
+
+Domains & Skills: Aerospace engineering, computational physics, software engineering. Skills: orbital mechanics (Keplerian motion), numerical methods, Python/C++ coding, and possibly reinforcement learning for trajectory optimization. Knowledge of libraries (NASA GMAT, Orekit, Astropy) and handling large state data is required.
+Timeline (phases): Problem formulation & equations (1 month); orbit dynamics code (2 months); mission optimization algorithm (1 month); simulation of scenarios (1 month); visualization & report (1 month).
+2026-09-01
+2026-10-01
+2026-11-01
+2026-12-01
+2027-01-01
+2027-02-01
+Setup Equations
+Dynamics Development
+Optimization Module
+Scenario Simulation
+Visualization & Docs
+Phases
+Space Mission Simulation Timeline
 
 
-def is_valid(board, row, col, num):
-    # Check row
-    if num in board[row]:
-        return False
-
-    # Check column
-    for i in range(9):
-        if board[i][col] == num:
-            return False
-
-    # Check 3x3 grid
-    start_row, start_col = 3 * (row // 3), 3 * (col // 3)
-
-    for i in range(3):
-        for j in range(3):
-            if board[start_row + i][start_col + j] == num:
-                return False
-
-    return True
-
-
-def solve_sudoku(board):
-    for row in range(9):
-        for col in range(9):
-            if board[row][col] == 0:  # empty cell
-                for num in range(1, 10):
-                    if is_valid(board, row, col, num):
-                        board[row][col] = num
-
-                        if solve_sudoku(board):
-                            return True
-
-                        board[row][col] = 0  # backtrack
-
-                return False
-    return True
+Show code
+Budget (Low): All tools are open-source or free. Compute: negligible (CPU runs, e.g. 50 CPU-hours ~$5). Data: astronomical ephemeris are public. Total <$10.
+Risks & Mitigation: Numerical stability (long propagations) – use high-precision integrators. Verification with known test cases (Kepler orbits). Complexity of optimization (may not converge) – use multiple restarts or heuristics. All data is public (NASA); security not an issue.
+Deliverables & Metrics: Executable simulator and mission reports. Metrics: orbital prediction error (<1e-6 km), fuel efficiency improvements (if optimizing), computation time for a mission scenario (<1h). For software quality: include unit tests for orbital functions (100% coverage for math modules) and CI for builds. A final presentation with plots of orbits and mission profile is expected.
+Collaborators & Funding: Aerospace research labs (NASA JPL/ESA), smallsat initiatives (CubeSat Consortium). Grants from NASA (e.g. Undergraduate Student Research) or NSF (Aerospace projects). Tools may use open data from NASA (SPICE kernel).
